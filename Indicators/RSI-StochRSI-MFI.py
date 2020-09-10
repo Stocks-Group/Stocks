@@ -75,7 +75,6 @@ def calcStochRSI(RSI, N):
         minRSI = min(RSI[i:i+N])
         maxRSI = max(RSI[i:i+N])
         if not maxRSI == minRSI:
-            #StochRSI.append(100000)
             StochRSI.append((RSI[i]-minRSI)/(maxRSI-minRSI))
     return StochRSI
 
@@ -99,7 +98,19 @@ def main():
                 break
         print("Signal Strength: ", i-1, "days")
     StochRSI = calcStochRSI(RSI, N)
-    print("StochRSI = ", StochRSI[0])
+    print("StochRSI = ", StochRSI[0:20])
+    if (StochRSI[1]<StochRSIind[0]) and (StochRSI[0]>StochRSIind[0]):
+        print("StochRSI: Buy Signal")
+        for i in range(2,len(StochRSI)):
+            if StochRSI[i] > StochRSIind[0]:
+                break
+        print("Signal Strength: ", i-1, "days")
+    elif (StochRSI[1]>StochRSIind[1]) and (StochRSI[0]<StochRSIind[1]):
+        print("StochRSI: Sell Signal")
+        for i in range(2,len(StochRSI)):
+            if StochRSI[i] < StochRSIind[1]:
+                break
+        print("Signal Strength: ", i-1, "days")
     highprices = fillPrice(lstdata,"<HIGH>")
     lowprices = fillPrice(lstdata,"<LOW>")
     volumeprices = fillPrice(lstdata,"<VOL>")
